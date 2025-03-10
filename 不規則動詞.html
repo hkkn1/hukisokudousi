@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英単語テスト 不規則動詞  </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    #container {
+      border: 1px solid #ddd;
+      padding: 20px;
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    #question {
+      margin-bottom: 10px;
+    }
+
+    #answer-area {
+      display: flex;
+      justify-content: center;
+    }
+
+    #answer {
+      width: 50%;
+      padding: 5px;
+    }
+
+    #result {
+      font-weight: bold;
+      color: #000;
+      display: none;
+    }
+
+    #buttons {
+      margin-top: 10px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    #check-answer {
+      display: block;
+    }
+
+    #next-question {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>英単語テスト 不規則動詞 </h1>
+    <p id="question"></p>
+    <div id="answer-area">
+      <input type="text" id="answer">
+    </div>
+    <p id="result"></p>
+    <div id="buttons">
+      <button id="check-answer">答えを確認</button>
+      <button id="next-question">次の問題へ</button>
+    </div>
+  </div>
+  <script>
+    const questions = [
+    {
+      question: "「become」",
+      answer: "～になる(原型、過去分詞)"
+    },
+    {
+      question: "「became」",
+      answer: "～になる(過去形)"
+    },{
+      question: "「begin」",
+      answer: "始める"
+    },{
+      question: "「began」",
+      answer: "始める(過去形)"
+    },{
+      question: "「begun」",
+      answer: "始める(過去分詞)"
+    },{
+      question: "「blow」",
+      answer: "吹く"
+    },{
+      question: "「blew」",
+      answer: "吹く(過去形)"
+    },{
+      question: "「blown」",
+      answer: "吹く(過去分詞)"
+    },{
+      question: "「break」",
+      answer: "壊す"
+    },{
+      question: "「broke」",
+      answer: "壊す(過去形)"
+    },{
+      question: "「broken」",
+      answer: "壊す(過去分詞)"
+    },{
+      question: "「bring」",
+      answer: "持ってくる"
+    },{
+      question: "「brought」",
+      answer: "持ってくる(過去形、過去分詞)"
+    },{
+      question: "「build」",
+      answer: "建てる"
+    },{
+      question: "「built」",
+      answer: "建てる(過去形、過去分詞)"
+    },{
+      question: "「buy」",
+      answer: "買う"
+    },{
+      question: "「bought」",
+      answer: "買う(過去形、過去分詞)"
+    },{
+      question: "「catch」",
+      answer: "捕える"
+    },{
+      question: "「caught」",
+      answer: "捕える(過去形、過去分詞)"
+    },{
+      question: "「choose」",
+      answer: "選ぶ"
+    },{
+      question: "「chose」",
+      answer: "選ぶ(過去形)"
+    },{
+      question: "「chosen」",
+      answer: "選ぶ(過去分詞)"
+    },{
+      question: "「come」",
+      answer: "来る(原型、過去分詞)"
+    },{
+      question: "「came」",
+      answer: "来る(過去形)"
+    },{
+      question: "「cut」",
+      answer: "切る(原型、過去形、過去分詞)"
+    },{
+      question: "「do」",
+      answer: "する"
+    },
+    {
+      question: "「did」",
+      answer: "する(過去形)"
+    },{
+      question: "「done」",
+      answer: "する(過去分詞)"
+    },{
+      question: "「draw」",
+      answer: "描く"
+    },{
+      question: "「drew」",
+      answer: "描く(過去形)"
+    },{
+      question: "「drawn」",
+      answer: "描く(過去分詞)"
+    },{
+      question: "「drink」",
+      answer: "飲む"
+    },{
+      question: "「drank」",
+      answer: "飲む(過去形)"
+    },{
+      question: "「drunk」",
+      answer: "飲む(過去分詞)"
+    },{
+      question: "「drive」",
+      answer: "運転する"
+    },{
+      question: "「drove」",
+      answer: "運転する(過去形)"
+    },{
+      question: "「driven」",
+      answer: "運転する(過去分詞)"
+    },{
+      question: "「eat」",
+      answer: "食べる"
+    },{
+      question: "「ate」",
+      answer: "食べる(過去形)"
+    },{
+      question: "「eaten」",
+      answer: "食べる(過去分詞)"
+    },{
+      question: "「fall」",
+      answer: "落ちる"
+    },{
+      question: "「fell」",
+      answer: "落ちる(過去形)"
+    },{
+      question: "「fallen」",
+      answer: "落ちる(過去分詞)"
+    },{
+      question: "「feed」",
+      answer: "食べ物を与える"
+    },{
+      question: "「fed」",
+      answer: "食べ物を与える(過去形、過去分詞)"
+    },{
+      question: "「feel」",
+      answer: "感じる"
+    },{
+      question: "「felt」",
+      answer: "感じる(過去形、過去分詞)"
+    },{
+      question: "「fight」",
+      answer: "戦う"
+    },{
+      question: "「fought」",
+      answer: "戦う(過去形、過去分詞)"
+    },{
+      question: "「find」",
+      answer: "見つける"
+    },{
+      question: "「found」",
+      answer: "見つける(過去形、過去分詞)"
+    },{
+      question: "「fly」",
+      answer: "飛ぶ"
+    },{
+      question: "「flew」",
+      answer: "飛ぶ(過去形)"
+    },{
+      question: "「flown」",
+      answer: "飛ぶ(過去分詞)"
+    },{
+      question: "「forget」",
+      answer: "忘れる"
+    },{
+      question: "「forgot」",
+      answer: "忘れる(過去形)"
+    },{
+      question: "「forgot(ten)」",
+      answer: "忘れる(過去分詞)"
+    },{
+      question: "「get」",
+      answer: "得る"
+    },{
+      question: "「got」",
+      answer: "得る(過去形)"
+    },{
+      question: "「got(ten)」",
+      answer: "得る(過去分詞)"
+    },{
+      question: "「give」",
+      answer: "与える"
+    },{
+      question: "「gave」",
+      answer: "与える(過去形)"
+    },{
+      question: "「given」",
+      answer: "与える(過去分詞)"
+    },{
+      question: "「go」",
+      answer: "行く"
+    },{
+      question: "「went」",
+      answer: "行く(過去形)"
+    },{
+      question: "「gone」",
+      answer: "行く"
+    },{
+      question: "「grow」",
+      answer: "成長する"
+    },{
+      question: "「grew」",
+      answer: "成長する(過去形)"
+    },{
+      question: "「grown」",
+      answer: "成長する(過去分詞)"
+    },{
+      question: "「have」",
+      answer: "持っている"
+    },{
+      question: "「had」",
+      answer: "持っている(過去形、過去分詞)"
+    },{
+      question: "「hear」",
+      answer: "聞く"
+    },{
+      question: "「heard」",
+      answer: "聞く(過去形、過去分詞)"
+    },{
+      question: "「hit」",
+      answer: "打つ(原型、過去形、過去分詞)"
+    },{
+      question: "「hold」",
+      answer: "持つ、保つ"
+    },{
+      question: "「held」",
+      answer: "持つ、保つ(過去形、過去分詞)"
+    },{
+      question: "「keep」",
+      answer: "保つ"
+    },{
+      question: "「kept」",
+      answer: "持つ(過去形、過去分詞)"
+    },{
+      question: "「know」",
+      answer: "知っている"
+    },{
+      question: "「knew」",
+      answer: "知っている(過去形)"
+    },{
+      question: "「known」",
+      answer: "知っている(過去分詞)"
+    },{
+      question: "「lead」",
+      answer: "導く"
+    },{
+      question: "「led」",
+      answer: "導く(過去形、過去分詞)"
+    },{
+      question: "「leave」",
+      answer: "去る"
+    },{
+      question: "「left」",
+      answer: "去る(過去形、過去分詞)"
+    },{
+      question: "「lend」",
+      answer: "貸す"
+    },{
+      question: "「lent」",
+      answer: "貸す(過去形、過去分詞)"
+    },{
+      question: "「lose」",
+      answer: "失う"
+    },{
+      question: "「lost」",
+      answer: "失う(過去形、過去分詞)"
+    },{
+      question: "「make」",
+      answer: "作る"
+    },{
+      question: "「made」",
+      answer: "作る(過去形、過去分詞)"
+    },{
+      question: "「mean」",
+      answer: "意味する"
+    },{
+      question: "「meant」",
+      answer: "意味する(過去形、過去分詞)"
+    },{
+      question: "「meet」",
+      answer: "会う"
+    },{
+      question: "「met」",
+      answer: "会う(過去形、過去分詞)"
+    },{
+      question: "「pay」",
+      answer: "支払う"
+    },{
+      question: "「paid」",
+      answer: "支払う(過去形、過去分詞)"
+    },{
+      question: "「put」",
+      answer: "置く(原型、過去形、過去分詞)"
+    },{
+      question: "「read」",
+      answer: "読む(原型、過去形、過去分詞)"
+    },{
+      question: "「ride」",
+      answer: "乗る"
+    },{
+      question: "「rode」",
+      answer: "乗る(過去形)"
+    },{
+      question: "「ridden」",
+      answer: "乗る(過去分詞)"
+    },{
+      question: "「rise」",
+      answer: "昇る"
+    },{
+      question: "「rose」",
+      answer: "昇る(過去形)"
+    },{
+      question: "「risen」",
+      answer: "昇る(過去分詞)"
+    },{
+      question: "「run」",
+      answer: "走る(原型、過去分詞)"
+    },{
+      question: "「ran」",
+      answer: "走る(過去形)"
+    },{
+      question: "「say」",
+      answer: "言う"
+    },{
+      question: "「said」",
+      answer: "言う(過去形、過去分詞)"
+    },{
+      question: "「see」",
+      answer: "見る"
+    },{
+      question: "「saw」",
+      answer: "見る(過去形)"
+    },{
+      question: "「seen」",
+      answer: "見る(過去分詞)"
+    },{
+      question: "「sell」",
+      answer: "売る"
+    },{
+      question: "「sold」",
+      answer: "売る(過去形、過去分詞)"
+    },{
+      question: "「send」",
+      answer: "送る"
+    },{
+      question: "「sent」",
+      answer: "送る(過去形、過去分詞)"
+    },{
+      question: "「set」",
+      answer: "置く(原型、過去形、過去分詞)"
+    },{
+      question: "「shoot」",
+      answer: "撃つ"
+    },{
+      question: "「shot」",
+      answer: "撃つ(過去形、過去分詞)"
+    },{
+      question: "「show」",
+      answer: "示す"
+    },{
+      question: "「showed」",
+      answer: "示す(過去形)"
+    },{
+      question: "「shown」",
+      answer: "示す(過去分詞)"
+    },{
+      question: "「shut」",
+      answer: "閉める(原型、過去形、過去分詞)"
+    },{
+      question: "「sing」",
+      answer: "歌う"
+    },{
+      question: "「sang」",
+      answer: "歌う(過去形)"
+    },{
+      question: "「sung」",
+      answer: "歌う(過去分詞)"
+    },{
+      question: "「sink」",
+      answer: "沈む"
+    },{
+      question: "「sank」",
+      answer: "沈む(過去形)"
+    },{
+      question: "「sunk」",
+      answer: "沈む(過去分詞)"
+    },{
+      question: "「sit」",
+      answer: "座る"
+    },{
+      question: "「sat」",
+      answer: "座る(過去形、過去分詞)"
+    },{
+      question: "「sleep」",
+      answer: "眠る"
+    },{
+      question: "「slept」",
+      answer: "眠る(過去形、過去分詞)"
+    },{
+      question: "「speak」",
+      answer: "話す"
+    },{
+      question: "「spoke」",
+      answer: "話す(過去形)"
+    },{
+      question: "「spoken」",
+      answer: "話す(過去分詞)"
+    },{
+      question: "「spend」",
+      answer: "過ごす"
+    },{
+      question: "「spent」",
+      answer: "過ごす(過去形、過去分詞)"
+    },{
+      question: "「spread」",
+      answer: "広げる(原型、過去形、過去分詞)"
+    },{
+      question: "「stand」",
+      answer: "立つ"
+    },{
+      question: "「stood」",
+      answer: "立つ(過去形、過去分詞)"
+    },{
+      question: "「steal」",
+      answer: "盗む"
+    },{
+      question: "「stole」",
+      answer: "盗む(過去形)"
+    },{
+      question: "「stolen」",
+      answer: "盗む(過去分詞)"
+    },{
+      question: "「swim」",
+      answer: "泳ぐ"
+    },{
+      question: "「swam」",
+      answer: "泳ぐ(過去形)"
+    },{
+      question: "「swum」",
+      answer: "泳ぐ(過去分詞)"
+    },{
+      question: "「take」",
+      answer: "取る"
+    },{
+      question: "「took」",
+      answer: "取る(過去形)"
+    },{
+      question: "「taken」",
+      answer: "取る(過去分詞)"
+    },{
+      question: "「teach」",
+      answer: "教える"
+    },{
+      question: "「taught」",
+      answer: "教える(過去形、過去分詞)"
+    },{
+      question: "「tell」",
+      answer: "話す"
+    },{
+      question: "「told」",
+      answer: "話す(過去形、過去分詞)"
+    },{
+      question: "「think」",
+      answer: "思う"
+    },{
+      question: "「thought」",
+      answer: "思う(過去形、過去分詞)"
+    },{
+      question: "「throw」",
+      answer: "投げる"
+    },{
+      question: "「threw」",
+      answer: "投げる(過去形)"
+    },{
+      question: "「thrown」",
+      answer: "投げる(過去分詞)"
+    },{
+      question: "「understand」",
+      answer: "理解する"
+    },{
+      question: "「understood」",
+      answer: "理解する(過去形、過去分詞)"
+    },{
+      question: "「wake」",
+      answer: "目が覚める"
+    },{
+      question: "「woke」",
+      answer: "目が覚める(過去形)"
+    },{
+      question: "「woken」",
+      answer: "目が覚める(過去分詞)"
+    },{
+      question: "「wear」",
+      answer: "着ている"
+    },{
+      question: "「wore」",
+      answer: "着ている(過去形)"
+    },{
+      question: "「worn」",
+      answer: "着ている(過去分詞)"
+    },{
+      question: "「win」",
+      answer: "勝つ"
+    },{
+      question: "「won」",
+      answer: "勝つ(過去形、過去分詞)"
+    },{
+      question: "「write」",
+      answer: "書く"
+    },{
+      question: "「wrote」",
+      answer: "書く(過去形)"
+    },{
+      question: "「written」",
+      answer: "書く(過去分詞)"
+    },
+]
+
+
+  ;
+    const questionElement = document.getElementById("question");
+    const answerElement = document.getElementById("answer");
+    const resultElement = document.getElementById("result");
+    const checkAnswerButton = document.getElementById("check-answer");
+    const nextQuestionButton = document.getElementById("next-question");
+
+    let usedQuestionIndexes = [];
+
+    function showQuestion() {
+      if (usedQuestionIndexes.length === questions.length) {
+        alert("テスト終了");
+        return;
+      }
+
+      let questionIndex;
+      do {
+        questionIndex = Math.floor(Math.random() * questions.length);
+      } while (usedQuestionIndexes.includes(questionIndex));
+
+      usedQuestionIndexes.push(questionIndex);
+
+      const question = questions[questionIndex];
+      questionElement.textContent = question.question;
+      answerElement.value = "";
+      resultElement.style.display = "none";
+      checkAnswerButton.style.display = "block";
+      nextQuestionButton.style.display = "none";
+    }
+
+    function checkAnswer() {
+      const correctAnswer = questions[usedQuestionIndexes[usedQuestionIndexes.length - 1]].answer;
+      resultElement.textContent = "正解は「" + correctAnswer + "」";
+      resultElement.style.display = "block";
+      checkAnswerButton.style.display = "none";
+      nextQuestionButton.style.display = "block";
+    }
+
+    function nextQuestion() {
+      showQuestion();
+    }
+
+    showQuestion();
+
+    checkAnswerButton.addEventListener("click", checkAnswer);
+    nextQuestionButton.addEventListener("click", nextQuestion);
+  </script>
+</body>
+</html>
